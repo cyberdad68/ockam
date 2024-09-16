@@ -19,7 +19,7 @@ const AFTER_LONG_HELP: &str = include_str!("./static/delete/after_long_help.txt"
 #[derive(Clone, Debug, Args)]
 #[command(after_long_help = docs::after_help(AFTER_LONG_HELP))]
 pub struct DeleteCommand {
-    /// Delete the outlet with this alias name
+    /// Delete the outlet with this alias
     #[arg(display_order = 900, required = true, id = "ALIAS", value_parser = alias_parser)]
     alias: String,
 
@@ -71,7 +71,7 @@ pub async fn run_impl(
                 "TCP outlet with alias {alias} on Node {node_name} has been deleted"
             ))
             .machine(&alias)
-            .json(serde_json::json!({ "tcp-outlet": { "alias": alias, "node": node_name } }))
+            .json(serde_json::json!({ "alias": alias, "node": node_name }))
             .write_line()
             .unwrap();
     }
